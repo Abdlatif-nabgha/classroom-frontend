@@ -14,10 +14,10 @@ import { useMemo, useState } from "react"
 
 const SubjectsList = () => {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedDepartement, setSelectedDepartement] = useState('all')
+  const [selecteddepartment, setSelecteddepartment] = useState('all')
 
-  const departementFilters = selectedDepartement === 'all' ? [] : [
-    { field: 'departement', operator: 'eq' as const, value: selectedDepartement }
+  const departmentFilters = selecteddepartment === 'all' ? [] : [
+    { field: 'department', operator: 'eq' as const, value: selecteddepartment }
   ];
   const searchFilters = searchQuery ? [
     { field: 'name', operator: 'contains' as const, value: searchQuery}
@@ -41,10 +41,10 @@ const SubjectsList = () => {
         filterFn: 'includesString'
       },
       {
-        id: 'departement',
-        accessorKey: 'departement.name',
+        id: 'department',
+        accessorKey: 'department.name',
         size: 150,
-        header: () => <p className="column-title">Departement</p>,
+        header: () => <p className="column-title">department</p>,
         cell: ({ getValue }) => <Badge variant="secondary">{getValue<string>()}</Badge>,
       },
       {
@@ -59,7 +59,7 @@ const SubjectsList = () => {
       resource: 'subjects',
       pagination: { pageSize: 10, mode: 'server'},
       filters: {
-          permanent: [...departementFilters, ...searchFilters]
+          permanent: [...departmentFilters, ...searchFilters]
       },
       sorters: {
             initial: [
@@ -89,23 +89,23 @@ const SubjectsList = () => {
           </div>
         <div className="flex gap-2 w-full sm:w-auto">
             <Select 
-                value={selectedDepartement}
-                onValueChange={setSelectedDepartement}
+                value={selecteddepartment}
+                onValueChange={setSelecteddepartment}
             >
                 <SelectTrigger>
-                  <SelectValue placeholder='Filter by departement ...' />
+                  <SelectValue placeholder='Filter by department ...' />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value="all">
-                      All Departements
+                      All departments
                     </SelectItem>
                     {
-                        DEPARTMENT_OPTIONS.map( departement => (
+                        DEPARTMENT_OPTIONS.map( department => (
                           <SelectItem 
-                            key={departement.value}
-                            value={departement.value}
+                            key={department.value}
+                            value={department.value}
                           >
-                            {departement.label}
+                            {department.label}
                           </SelectItem>
                         ))
                     }
